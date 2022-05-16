@@ -3,16 +3,16 @@
 //  newnewp3
 //
 //  Created by Ali Yiğit Taş on 15.05.2022.
-//
+// test
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int x[3] = {2,3,1};
-int y[3] = {1,4,-5};
-int z[3] = {-1,2,-2};
-int results[3] = {1,13,0};
+int x[3] = {1,0,0};
+int y[3] = {5,2,0};
+int z[3] = {3,1,0};
+int results[3] = {-8,3,7};
 int mx[3];
 int my[3];
 int mz[3];
