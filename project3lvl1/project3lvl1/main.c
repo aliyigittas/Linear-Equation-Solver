@@ -3,24 +3,19 @@
 //  project3lvl1
 //
 //  Created by Ali Yiğit Taş on 16.05.2022.
-// matrix[satır numarası-1][x=0,y=1,z=2,result=3]
+// matrix[satır sayısı-1][x=0,y=1,z=2,result=3]
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int matrix[10][4] = {{1,-5,3,-8},{0,2,1,3},{0,0,0,7}};
-int mx[3];
-int my[3];
-int mz[3];
-int mresults[3];
-int nx[3];
-int ny[3];
-int nz[3];
-int nresults[3];
-double rsltz;
-double rslty;
-double rsltx;
+#define MAX 100 //Max variables
+#define UNKNOWNNUMBER MAX+1 //Plus results
+
+int matrix[MAX][UNKNOWNNUMBER] = {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}};
+int mmatrix[MAX][UNKNOWNNUMBER];
+int nmatrix[MAX][UNKNOWNNUMBER];
+double rsltz, rslty, rsltx;
 int again;
 
 static void AfterSolving(void);
@@ -86,30 +81,30 @@ static void FirstStep3unk(){
 static void Solve3unk(){
     printf("Second Step:\n");
     
-    mx[0] = matrix[0][0] * matrix[1][0];                   //İlk satır
-    my[0] = matrix[0][1] * matrix[1][0];                   //ikinci satırdaki
-    mz[0] = matrix[0][2] * matrix[1][0];                   //x katsayısı ile çarpıldı.
-    mresults[0] = matrix[0][3] * matrix[1][0];       //Yazdırılmaması için farklı değişkene atandı.
+    mmatrix[0][0] = matrix[0][0] * matrix[1][0];                   //İlk satır
+    mmatrix[0][1] = matrix[0][1] * matrix[1][0];                   //ikinci satırdaki
+    mmatrix[0][2] = matrix[0][2] * matrix[1][0];                   //x katsayısı ile çarpıldı.
+    mmatrix[0][3] = matrix[0][3] * matrix[1][0];                   //Yazdırılmaması için farklı değişkene atandı.
     
     
-    matrix[1][0] = (matrix[1][0] * matrix[0][0]) - mx[0];                          //İkinci satır ilk satırdaki
-    matrix[1][1] = (matrix[1][1] * matrix[0][0]) - my[0];                          //x katsayısı ile çarpıldı.
-    matrix[1][2] = (matrix[1][2] * matrix[0][0]) - mz[0];                          //ilk satırdan çıkarıldı.
-    matrix[1][3] = (matrix[1][3] * matrix[0][0]) - mresults[0];                    // Yazdırılacak.
+    matrix[1][0] = (matrix[1][0] * matrix[0][0]) - mmatrix[0][0];                          //İkinci satır ilk satırdaki
+    matrix[1][1] = (matrix[1][1] * matrix[0][0]) - mmatrix[0][1];                          //x katsayısı ile çarpıldı.
+    matrix[1][2] = (matrix[1][2] * matrix[0][0]) - mmatrix[0][2];                          //ilk satırdan çıkarıldı.
+    matrix[1][3] = (matrix[1][3] * matrix[0][0]) - mmatrix[0][3];                          // Yazdırılacak.
 
     
     
-    mx[0] = matrix[0][0] * matrix[2][0];                   //1. satır
-    my[0] = matrix[0][1] * matrix[2][0];                   //3. satırdaki
-    mz[0] = matrix[0][2] * matrix[2][0];                   //x katsayısı ile çarpıldı.
-    mresults[0] = matrix[0][3] * matrix[2][0];             //Yazdırılmaması için farklı değişkene atandı.
+    mmatrix[0][0] = matrix[0][0] * matrix[2][0];                   //1. satır
+    mmatrix[0][1] = matrix[0][1] * matrix[2][0];                   //3. satırdaki
+    mmatrix[0][2] = matrix[0][2] * matrix[2][0];                   //x katsayısı ile çarpıldı.
+    mmatrix[0][3] = matrix[0][3] * matrix[2][0];                   //Yazdırılmaması için farklı değişkene atandı.
     
     
     
-    matrix[2][0] = (matrix[2][0] * matrix[0][0]) - mx[0];                          //3. satır ilk satırdaki
-    matrix[2][1] = (matrix[2][1] * matrix[0][0]) - my[0];                          //x katsayısı ile çarpıldı.
-    matrix[2][2] = (matrix[2][2] * matrix[0][0]) - mz[0];                          //1. satırdan çıkarıldı.
-    matrix[2][3] = (matrix[2][3] * matrix[0][0]) - mresults[0];                    // Yazdırılacak.
+    matrix[2][0] = (matrix[2][0] * matrix[0][0]) - mmatrix[0][0];                          //3. satır ilk satırdaki
+    matrix[2][1] = (matrix[2][1] * matrix[0][0]) - mmatrix[0][1];                          //x katsayısı ile çarpıldı.
+    matrix[2][2] = (matrix[2][2] * matrix[0][0]) - mmatrix[0][2];                          //1. satırdan çıkarıldı.
+    matrix[2][3] = (matrix[2][3] * matrix[0][0]) - mmatrix[0][3];                          // Yazdırılacak.
     
     
     for (int i=0;i<3;i++){
@@ -121,14 +116,14 @@ static void Solve3unk(){
     
     //There is no need to multiply x with y[2] because its already zero in both lines.
     
-    my[1] = matrix[1][1] * matrix[2][1];                    //2. satır 3. satırdaki
-    mz[1] = matrix[1][2] * matrix[2][1];                    //y katsayısı ile çarpıldı.
-    mresults[1] = matrix[1][3] * matrix[2][1];        //Yazdırılmaması için farklı değişkene atandı.
+    mmatrix[1][1] = matrix[1][1] * matrix[2][1];                    //2. satır 3. satırdaki
+    mmatrix[1][2] = matrix[1][2] * matrix[2][1];                    //y katsayısı ile çarpıldı.
+    mmatrix[1][3] = matrix[1][3] * matrix[2][1];                    //Yazdırılmaması için farklı değişkene atandı.
     
     
-    matrix[2][1] = (matrix[2][1] * matrix[1][1]) - my[1];                     //3. satır ve 2. satır y değeri çarpıldı
-    matrix[2][2] = (matrix[2][2] * matrix[1][1]) - mz[1];                     //3. satırdan
-    matrix[2][3] = (matrix[2][3] * matrix[1][1]) - mresults[1];               //2. satır çıkarıldı.
+    matrix[2][1] = (matrix[2][1] * matrix[1][1]) - mmatrix[1][1];                     //3. satır ve 2. satır y değeri çarpıldı
+    matrix[2][2] = (matrix[2][2] * matrix[1][1]) - mmatrix[1][2];                     //3. satırdan
+    matrix[2][3] = (matrix[2][3] * matrix[1][1]) - mmatrix[1][3];                     //2. satır çıkarıldı.
     
     
     for (int i=0;i<3;i++){
@@ -159,10 +154,10 @@ static void Solve3unk(){
 int main() {
     
     for (int i=0;i<3;i++){
-        nx[i] = matrix[i][0];
-        ny[i] = matrix[i][1];
-        nz[i] = matrix[i][2];
-        nresults[i] = matrix[i][3];
+        nmatrix[i][0] = matrix[i][0];
+        nmatrix[i][1] = matrix[i][1];
+        nmatrix[i][2] = matrix[i][2];
+        nmatrix[i][3] = matrix[i][3];
     }
     PrintEquations();
     printf("\n");
@@ -184,10 +179,10 @@ static void AfterSolving(){
     switch (again) {
         case 1:
             for (int i=0;i<3;i++){
-                matrix[i][0] = nx[i];
-                matrix[i][1] = ny[i];
-                matrix[i][2] = nz[i];
-                matrix[i][3] = nresults[i];
+                matrix[i][0] = nmatrix[i][0];
+                matrix[i][1] = nmatrix[i][1];
+                matrix[i][2] = nmatrix[i][2];
+                matrix[i][3] = nmatrix[i][3];
             }
             main();
         case 2:
