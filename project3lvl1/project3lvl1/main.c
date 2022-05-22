@@ -13,7 +13,7 @@
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
 #define unknownumber 3 //current unknown number
 
-double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{1,-5,3,-8},{0,2,1,3},{0,0,0,7}}; //3 değişkenli no solution
+double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; //program başlarken matrix arrayinin yedeğini buraya alıyor daha sonra isteğe bağlı aynı sayılarla yeniden işlem yapılıyor.
 double result[unknownumber];
 char unknames[MAXUNKNOWNNUMBER] = {'x','y','z','a','b','c','d','e','f','g'};
@@ -44,15 +44,15 @@ static void PrintEquations() {
                 printf("-%c",unknames[j]);
             }else {
                 if (j==0){
-                    printf("%.0f%c", matrix[i][j],unknames[j]);
+                    printf("%g%c", matrix[i][j],unknames[j]);
                 }else {
-                    printf("%+.0f%c", matrix[i][j],unknames[j]);
+                    printf("%+g%c", matrix[i][j],unknames[j]);
                 }
                 
             }
             
         }
-        printf("=%.0f\n",matrix[i][coeffnum-1]);
+        printf("=%g\n",matrix[i][coeffnum-1]);
 
     }
 }
@@ -128,7 +128,7 @@ static void PrintResults(){
     }else{
         printf("RESULTS:\n");
         for (int i=0;i<unknum;i++){
-            printf("%c is %.2f\n",unknames[i],result[i]);
+            printf("%c is %g\n",unknames[i],result[i]);
         }
     }
     
