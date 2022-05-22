@@ -3,20 +3,19 @@
 //  project3lvl1
 //
 //  Created by Ali Yiğit Taş on 16.05.2022.
-// Sadece eşitsizlikleri yazma kısmında sorun var olmazsa da pek önemli değil
+// Sadece eşitsizliklerin başında fazlalık bir + işareti var 
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAXUNKNOWNNUMBER 10 //Max variables
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
-#define unknownumber 2
+#define unknownumber 3 //current unknown number
 
-double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{4,-2,20},{-5,-5,-10}}; //2 değişkenli
+double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; //program başlarken matrix arrayinin yedeğini buraya alıyor daha sonra isteğe bağlı aynı sayılarla yeniden işlem yapılıyor.
-//double rsltz, rslty, rsltx;
 double result[unknownumber];
-char unknames[MAXUNKNOWNNUMBER] = {'x','y','z'};
+char unknames[MAXUNKNOWNNUMBER] = {'x','y','z','a','b','c','d','e','f','g'};
 int again;
 int unknum = unknownumber; //number of unknowns
 int linenum;
@@ -27,54 +26,25 @@ float placenumber;
 
 static void AfterSolving(void);
 
-static void PrintEquations() { /* This is not unknown number-spesific*/
+static void PrintEquations() {
     
     printf("Equations:\n");
     
-    for (int i=0;i<3;i++){
-        
-        //Print x coefficient
-        if (matrix[i][0]==0){
-            printf("");
-        }else if (matrix[i][0]==1){
-            printf("x");
-        }else if (matrix[i][0]==-1){
-            printf("-x");
-        }else {
-            printf("%.0fx", matrix[i][0]);
+    for (int i=0;i<unknum;i++){
+        for (int j=0; j<unknum; j++){
+            if (matrix[i][j]==0){
+                printf("");
+            }else if (matrix[i][j]==1){
+                printf("+%c",unknames[j]);
+            }else if (matrix[i][j]==-1){
+                printf("-%c",unknames[j]);
+            }else {
+                printf("%+.0f%c", matrix[i][j],unknames[j]);
+            }
+            
         }
-        
-        //Print y coefficient
-        if (matrix[i][1]==0){
-            printf("");
-        }else if (matrix[i][1]==1){
-            printf("+y");
-        }else if (matrix[i][1]==-1){
-            printf("-y");
-        }else if (matrix[i][0]==0){
-            printf("%.0fy",matrix[i][1]); //if there is no x program does not print + sign before y if its positive.
-        }else {
-            printf("%+.0fy", matrix[i][1]);
-        }
-        
-        //Print z coefficient
-        if (matrix[i][2]==0){
-            printf("");
-        }else if (matrix[i][2]==1){
-            printf("+z");
-        }else if (matrix[i][2]==-1){
-            printf("-z");
-        }else if (matrix[i][0]==0 && matrix[i][1]==0){
-            printf("%.0fz",matrix[i][2]); //if there is no x program does not print + sign before z if its positive.
-        }else {
-            printf("%.0fz", matrix[i][2]);
-        }
-        
-        //Print result of equation
-        if (!(matrix[i][0]==0 && matrix[i][1]==0 && matrix[i][2]==0)){
-            printf("=%f\n", matrix[i][3]);
-        }
-        
+        printf("=%.0f\n",matrix[i][coeffnum-1]);
+
     }
 }
 
