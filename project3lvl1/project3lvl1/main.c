@@ -7,12 +7,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define MAXUNKNOWNNUMBER 10 //Max variables
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
 #define unknownumber 3 //current unknown number
 
-double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
+double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{1,-5,3,-8},{0,2,1,3},{0,0,0,7}}; //3 değişkenli no solution
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; //program başlarken matrix arrayinin yedeğini buraya alıyor daha sonra isteğe bağlı aynı sayılarla yeniden işlem yapılıyor.
 double result[unknownumber];
 char unknames[MAXUNKNOWNNUMBER] = {'x','y','z','a','b','c','d','e','f','g'};
@@ -20,6 +21,7 @@ int again;
 int unknum = unknownumber; //number of unknowns
 int linenum;
 int coeffnum;
+int nanvalue, infvalue;
 float ratio;
 float placenumber;
 
@@ -109,9 +111,19 @@ static void Solve(){
 
 static void PrintResults(){
     
-    if (matrix[linenum-1][0] ==0 && matrix[linenum-1][1] ==0 && matrix[linenum-1][2] ==0 && matrix[linenum-1][3]==0){ //ifin içinde for kullan coeff için
+    
+    for (int i=0; i<coeffnum+1; i++){ //+1 for checking result
+        if (isnan(result[i])){ //checking if its NaN or not
+            nanvalue++;
+        }
+        if (isinf(result[i])){ //checking if its inf (infinite) value or not
+            infvalue++;
+        }
+    }
+    
+    if (nanvalue == unknum){
         printf("This equation has multiple solutions!\n");
-    }else if (matrix[linenum-1][0] ==0 && matrix[linenum-1][1] ==0 && matrix[linenum-1][2] ==0 && matrix[linenum-1][3]!=0){ //arrays starts at 0, linenum-1 means last line
+    }else if (infvalue == unknum){
         printf("This equation has no solutions!\n");
     }else{
         printf("RESULTS:\n");
@@ -119,6 +131,18 @@ static void PrintResults(){
             printf("%c is %.2f\n",unknames[i],result[i]);
         }
     }
+    
+    
+    /*if (matrix[linenum-1][0] ==0 && matrix[linenum-1][1] ==0 && matrix[linenum-1][2] ==0 && matrix[linenum-1][3]==0){ //ifin içinde for kullan coeff için
+        printf("This equation has multiple solutions!\n");
+    }else if (matrix[linenum-1][0] ==0 && matrix[linenum-1][1] ==0 && matrix[linenum-1][2] ==0 && matrix[linenum-1][3]!=0){ //isfinite checks the number has infinite value or not
+        printf("This equation has no solutions!\n");
+    }else{
+        printf("RESULTS:\n");
+        for (int i=0;i<unknum;i++){
+            printf("%c is %.2f\n",unknames[i],result[i]);
+        }
+    }*/
 }
 
 
