@@ -12,7 +12,7 @@
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
 #define unknownumber 3 //current unknown number
 
-double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{1,1,2,-2},{3,-1,14,6},{1,2,0,-5}}; //3 değişkenli multiple solution
+double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] = {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; //program başlarken matrix arrayinin yedeğini buraya alıyor daha sonra isteğe bağlı aynı sayılarla yeniden işlem yapılıyor.
 double result[unknownumber];
 char unknames[MAXUNKNOWNNUMBER] = {'x','y','z','a','b','c','d','e','f','g'};
@@ -36,6 +36,8 @@ static void PrintEquations() {
                 printf("");
             }else if (matrix[i][j]==1 && j==0){
                 printf("%c",unknames[j]);
+            }else if (matrix[i][j]==1){
+                printf("+%c",unknames[j]);
             }else if (matrix[i][j]==-1){
                 printf("-%c",unknames[j]);
             }else {
