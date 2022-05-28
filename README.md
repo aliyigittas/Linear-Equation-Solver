@@ -1,20 +1,12 @@
 # Project 3 Report
 ## Level 1
+In level 1, equations are directly integrated in source code. But its easily changeable. For example, you can see matrix array elements as {{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}} This equal to this: 2x+y-z=1 and 3x+4y+2z=13 and x-5y-2z=0. And also, you need to define unknown numbers in 14th line for example its 3 now, but when put an equation with 4 variables, you need to change here as 4. In next, the nmatrix is a backup array, this is used for restarting program with same variables when user wanted to. Result array represents results, unknames array stores unknown names. Again variable is used in switch when program ends. Unknum is equal to defined unknownumber. Linenum is equal to unknum this is for better understanding. Coeffnum is number of unknowns +1(right side of equation). Nanvalue and infvalue variables is used for checking multiple and no solutions as a bonus feature. Ratio valuable is solving phase ratios are stored in here. Placenumber is used in back-substitution part when the perpendicular triangle is completed in matrix. PrintEquations function shows equations that the program has solved. PrintMatrix function creates matrix form. Solve function is the hearth of the code. Solving part repeats until perpendicular triangle in matrix is completed. We check that situation with if condition in 85th line. i<j (j is vertical, i is horizontal) is true in these conditions: for example, second line first element, third line first and second element etc. Then we get the ratio of second and first line in this case, its 3/2. Then we will multiply all first line elements with this ratio and substract these from second line. Then second line first element is turned zero (3-((3/2)*2). This operation performs until matrix looks like this:
+
+<img width="185" alt="Resim1" src="https://user-images.githubusercontent.com/48025526/170843927-18433972-19c2-47a5-a54b-bc2a33ee450b.png">
 
 
+You can see the perpendicular triangle with zeros in here.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+After that, this program retrieves results by doing back-substitution. In first program gets ratio of last element in last line and their solution (in this case 6.20/24.80) and program shifts to upper line (we used i—in for loop to do this). Placenumber stores multiplification of founded unknown and coefficient in upper line (in this case, 4*3.50, equals 14). Then substract this number from right side of equation (in this case, 11.50-(14), equals -2.50). Then gets ratio of unknown number and right side of that equation (-2.50/2.50, equals -1). This operation performs until program reaches to the first line. And program prints results with PrintResults function. In here, as a bonus, program checks multiple and no solutions checking by NaN and inf values. NaN value means that 0/0, this means all elements in last line is zero, this is multiple solution. Inf value means that a value divided by 0 for example 7/0 this means that this equation has no solution. After that, in AfterSolving function, program asks from user to repeat all operations from beginning. If user selects yes, that backup array (nmatrix) is transferred to matrix array and all operations starts again. If user selects no, program terminates, if user pressed undefined key, bonus feature is here, this function repeats (recursive function bonus). This was Level 1.
 
 ## Level 2
