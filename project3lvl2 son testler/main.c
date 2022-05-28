@@ -33,7 +33,7 @@ static void AfterSolving(void);
 static void ReadFromFile () {
 	char all_the_variables[250];
 	int the_first_line_has_been_done;
-	
+
     char lines[250][250];  //This 2d array keeps the lines in the text.
 	FILE *p;
 	p = fopen("text.txt", "r");
@@ -66,7 +66,7 @@ static void ReadFromFile () {
 
             //printf("this is one of the variables %c which is left side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
-            unknames[j] = variables[j];
+            //unknames[j] = variables[j];
             //printf("this is the %d. variable = %c which is left side of the equation\n", j, variables[j]);
             j++;
 
@@ -99,7 +99,7 @@ static void ReadFromFile () {
 	unknum = length_of_variables;
 	linenum = unknum;
 	coeffnum = unknum + 1;
-	
+
 	int m=0;
 
 	if(the_first_line_has_been_done == 0){
@@ -107,6 +107,7 @@ static void ReadFromFile () {
 		for(i=0; variables[i] != '\0'; i++){
 
 			all_the_variables[m] = variables[i];
+			unknames[i] = variables[i];
 			m++;
 		}
 	}
@@ -165,7 +166,7 @@ the_decider = 0;
 	if(the_decider == 0){
 
 		all_the_variables[m] = variables[i];
-		unknames[i] = variables[i];
+
 	//	printf("\n%c hehe\n", all_the_variables[m]);
 	}
 
@@ -182,7 +183,7 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 
             //printf("this is one of the variables %c which is left side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
-            unknames[j] = variables[j];
+            //unknames[j] = variables[j];
             //printf("this is the %d. variable = %c which is left side of the equation\n", j, variables[j]);
             j++;
 
@@ -223,7 +224,7 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 		for(i=0; variables[i] != '\0'; i++){
 
 			all_the_variables[m] = variables[i];
-			unknames[i] = variables[i];
+
 			m++;
 		}
 	}
