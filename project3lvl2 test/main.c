@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
+#include <string.h>
 
 #define MAXUNKNOWNNUMBER 10 //Max variables
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
@@ -15,8 +17,8 @@
 
 double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] ; //{{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; // at the beginning program takes a copy of matrix array in here for if user wants to solve again.
-double result[unknownumber]; //results are stored in here
-char unknames[MAXUNKNOWNNUMBER] = {'x','y','z','a','b','c','d','e','f','g'}; //these are unknown names
+double result[MAXUNKNOWNNUMBER]; //results are stored in here
+char unknames[MAXUNKNOWNNUMBER]; //= {'x','y','z','a','b','c','d','e','f','g'}; //these are unknown names
 int again; //this is used for switch
 int unknum = unknownumber; //number of unknowns
 int linenum; //same as unknum
@@ -63,6 +65,7 @@ static void ReadFromFile () {
 
             //printf("this is one of the variables %c which is left side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
+            unknames[j] = variables[j];
             //printf("this is the %d. variable = %c which is left side of the equation\n", j, variables[j]);
             j++;
 
@@ -92,10 +95,11 @@ static void ReadFromFile () {
 	char a[20];
 
 	int length_of_variables = strlen(variables); //the length for variables array.
+	//unknum = length_of_variables;
 
 
 
-	char newline[20];
+	char newline[200];
 	strcpy(newline, lines[b]); // this is to turn lines[0] which is the first equation to a new string to measure its length easily.
 	//printf("%s\n", lines[0]);  // both give the same output.
 	//printf("%s\n", newline);   // both give the same output.
