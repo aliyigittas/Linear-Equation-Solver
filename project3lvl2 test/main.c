@@ -13,14 +13,14 @@
 
 #define MAXUNKNOWNNUMBER 10 //Max variables
 #define MAXCOEFFICIENTS MAXUNKNOWNNUMBER+1 //Plus results
-#define unknownumber 3 //current unknown number
+//#define unknownumber 3 //current unknown number
 
 double matrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS] ; //{{2,1,-1,1},{3,4,2,13},{1,-5,-2,0}}; //3 değişkenli
 double nmatrix[MAXUNKNOWNNUMBER][MAXCOEFFICIENTS]; // at the beginning program takes a copy of matrix array in here for if user wants to solve again.
 double result[MAXUNKNOWNNUMBER]; //results are stored in here
 char unknames[MAXUNKNOWNNUMBER]; //= {'x','y','z','a','b','c','d','e','f','g'}; //these are unknown names
 int again; //this is used for switch
-int unknum = unknownumber; //number of unknowns
+int unknum ;//= unknownumber; //number of unknowns
 int linenum; //same as unknum
 int coeffnum; //coeffnum = unknum + 1 (result)
 int nanvalue, infvalue; // stores number of NaN and inf values.
@@ -95,7 +95,9 @@ static void ReadFromFile () {
 	char a[20];
 
 	int length_of_variables = strlen(variables); //the length for variables array.
-	//unknum = length_of_variables;
+	unknum = length_of_variables;
+	linenum = unknum;
+	coeffnum = unknum + 1;
 
 
 
@@ -256,8 +258,8 @@ static void PrintResults(){
 
 
 int main() {
-    linenum = unknum; // line number is number of equations
-    coeffnum = unknum + 1;//+1 is results
+    //linenum = unknum; // line number is number of equations
+    //coeffnum = unknum + 1;//+1 is results
     for (int i=0;i<MAXUNKNOWNNUMBER;i++){ //copies matrix to another array for if user wants to solving again.
         for (int j=0;j<MAXCOEFFICIENTS;j++){
             nmatrix[i][j] = matrix[i][j];
