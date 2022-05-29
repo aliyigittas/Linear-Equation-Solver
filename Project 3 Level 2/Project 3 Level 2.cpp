@@ -296,7 +296,7 @@ fclose(trial);
 }
 	
 	
-	for(i=0; i<length_of_variables + 2; i++){    // reading the new equation from the new file and get %f for coefficients and get %c for their variables.
+	for(i=0; i<length_of_variables + 4; i++){    // reading the new equation from the new file and get %f for coefficients and get %c for their variables.
 	
 fscanf(p,"%f%c", &coefficients_control[i], &variables_control[i]);  
 
