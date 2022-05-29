@@ -5,16 +5,19 @@
 #include <ctype.h>
 #include <math.h>
 
+static void AfterSolving(void); //This is for recursive function to close program.
 
 int main(){
 	
-	char all_the_variables[250];
-	int the_first_line_has_been_done;
-	FILE *p4;
-	char coefficients_first[40];
+	int nanvalue, infvalue; //These are for checking multiple solutions and no solutions.
+	char all_the_variables[250]; //This is for keeping all the variables in the text.
+	int the_first_line_has_been_done; //
+	FILE *trial; // This is for putting "1" to the variables which don't have any constant near.
+	char coefficients_first[40]; //This is for keeping the version of the lines added "1".
+	float the_constant_left; // This is for the constans which are left side of the equation.
 	
 	char lines[250][250];  //This 2d array keeps the lines in the text.
-	FILE *p;
+	FILE *p; // This is for the equation.
 	p = fopen("text.txt", "r");
 	int i = 0;
 	
@@ -26,13 +29,13 @@ int main(){
 
 	fclose(p);
 	
-	int how_many_lines = i;
+	int how_many_lines = i;  // This is for keeping the number of equations.
 	
-	char variables[10];    //This is to keep variables here.
+	char variables[10];    //This is to keep one line's variables.
 	
-	lines[i][250] = '\0';
+	lines[i][250] = '\0';  //This is for cleaning the lines.
 	
-	int j = 0; //for variables
+	int j = 0; //for one line's variables to keep in variables[j].
 	
 	for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the text (line by line).
 		
@@ -42,26 +45,20 @@ int main(){
 	for(i=0; lines[b][i] != '='; i++){   // This is for the equation's left side.
 			
 		if (isalpha(lines[b][i]) != 0){  // While checking for every element in the equation if it faces any char, takes it as variable to the vaiables array.
-		
-            //printf("this is one of the variables %c which is left side of the equation\n", lines[b][i]);
+		 
             variables[j] = lines[b][i];
-            //printf("this is the %d. variable = %c which is left side of the equation\n", j, variables[j]);
             j++;
             	
 			}
         }
         
-        
-		//printf("%c\n", firstline[i]);
 	
 	
 	for(; lines[b][i] != '\0'; i++){  // This is for the equation's right side.
 		
 		if (isalpha(lines[b][i]) != 0){  // While checking for every element in the equation if it faces any char, takes it as variable to the vaiables array.
 		
-            //printf("this is one of the variables %c which is right side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
-            //printf("this is the %d. variable = %c which is right side of the equation\n", j, variables[j]);
             j++;
         }
 		
@@ -76,9 +73,10 @@ int main(){
 	
 	int length_of_variables = strlen(variables); //the length for variables array.
 	
-	int m=0;
+	int m=0;  // This is for keeping all_the_variables[m].
 	
-	if(the_first_line_has_been_done == 0){
+	if(the_first_line_has_been_done == 0){  //If all the variables are not found in the first line, it adds the variables from the other line to the set.
+ 
 		
 		for(i=0; variables[i] != '\0'; i++){
 			
@@ -87,12 +85,11 @@ int main(){
 		}
 	}
 
-	the_first_line_has_been_done = 1;
+	the_first_line_has_been_done = 1; 
 	
-	char newline[20];
+	char newline[200];   
 	strcpy(newline, lines[b]); // this is to turn lines[0] which is the first equation to a new string to measure its length easily.
-	//printf("%s\n", lines[0]);  // both give the same output.
-	//printf("%s\n", newline);   // both give the same output.
+
 	int length_of_newline = strlen(newline); // this is to measure lines' length.
 	
 	p = fopen("lines.txt", "w");            // Here we put " " instead of "=" in the equation to easily get the coefficients and variables with %f%c method.
@@ -115,18 +112,13 @@ int main(){
 	for(i=0; i<length_of_variables + 1; i++){    // reading the new equation from the new file and get %f for coefficients and get %c for their variables.
 	
 fscanf(p,"%f%c", &coefficients_control[i], &variables_control[i]);  
-//printf("%f%c\n",coefficients_control[i], variables_control[i]);
 
 	}
 	
 fclose(p);
 
-//for(i=0; i<length_of_variables; i++){
-//printf("%c \n", variables[i]);	
-//}
-
 int length_of_all_the_variables = strlen(all_the_variables);
-int the_decider;
+int the_decider; //This is for adding new variables.
 
 for(i=0; i<length_of_variables; i++){
 	
@@ -143,22 +135,9 @@ for(i=0; i<length_of_variables; i++){
 	if(the_decider == 0){
 		
 		all_the_variables[m] = variables[i];
-	//	printf("\n%c hehe\n", all_the_variables[m]);
 	}
 }
 
-for(m=0; all_the_variables[m] != '\0'; m++){
-	
-	printf("\ntheseee %c\t", all_the_variables[m]);
-}
-
-for(i=0; i<length_of_variables; i++){ 
-	
-printf("this variable is %c and its coefficient is %f\n",variables_control[i], coefficients_control[i]);
-	
-}
-
-printf("The constant is %f\n\n", coefficients_control[i]);
 
 }
 int length_of_all_the_variables = strlen(all_the_variables);
@@ -167,15 +146,19 @@ float matrix[length_of_all_the_variables][length_of_all_the_variables+1];
 
 float result[length_of_all_the_variables];
 
-int nanvalue, infvalue;
+
 
 
 for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the text (line by line).
 
-	for(i=0; lines[b][i] != '\0'; i++){
+for(i=0; i<20; i++){   //This is to reset coefficients_first.
+	
+	coefficients_first[i] = '\0';
+}
+	
+	for(i=0; lines[b][i] != '\0'; i++){  //This is to copy lines[b][i] to coefficients_first[i].
 	
 	coefficients_first[i] = lines[b][i];
-	printf("%c\n", coefficients_first[i]);
 	
 	}
 		
@@ -186,25 +169,19 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 			
 		if (isalpha(lines[b][i]) != 0){  // While checking for every element in the equation if it faces any char, takes it as variable to the vaiables array.
 		
-            //printf("this is one of the variables %c which is left side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
-            //printf("this is the %d. variable = %c which is left side of the equation\n", j, variables[j]);
             j++;
             	
 			}
         }
         
-        
-		//printf("%c\n", firstline[i]);
 	
 	
 	for(; lines[b][i] != '\0'; i++){  // This is for the equation's right side.
 		
 		if (isalpha(lines[b][i]) != 0){  // While checking for every element in the equation if it faces any char, takes it as variable to the vaiables array.
 		
-            //printf("this is one of the variables %c which is right side of the equation\n", lines[b][i]);
             variables[j] = lines[b][i];
-            //printf("this is the %d. variable = %c which is right side of the equation\n", j, variables[j]);
             j++;
         }
 		
@@ -233,12 +210,16 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 	
 	int length_of_coefficients_first = strlen(coefficients_first);
 	
-	p4 = fopen("denemetext.txt", "w");
-	printf("tttttttt%c\n", coefficients_first[0]);
-	
-	if(isalpha(coefficients_first[0]) != 0){
+	for(i=0; coefficients_first[i] != '\0'; i++){
 		
-		fprintf(p4, "%c", '1');
+	}
+	
+	trial = fopen("denemetext.txt", "w");
+	
+	if(isalpha(coefficients_first[0]) != 0){  //If there is a letter and there isn't any coefficient, it puts "1" in front of it.
+
+		
+		fprintf(trial, "%c", '1');
 		
 			}
 	
@@ -246,7 +227,7 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 	
 	if (isalpha(coefficients_first[i]) == 0){
 		
-		fprintf(p4, "%c", coefficients_first[i]);
+		fprintf(trial, "%c", coefficients_first[i]);
 	}
 	
 	else if (isalpha(coefficients_first[i]) != 0){
@@ -254,47 +235,45 @@ for(int b = 0; b < how_many_lines; b++){  // This loop for the equations in the 
 		
 		if(coefficients_first[i-1] == '-'){
 			
-			fprintf(p4, "%c%c%c",'1',coefficients_first[i], coefficients_first[i+1]);
+			fprintf(trial, "%c%c%c",'1',coefficients_first[i], coefficients_first[i+1]);
 			i++;
 		}
 		
 		else if(coefficients_first[i-1] == '+'){
 			
-			fprintf(p4, "%c%c%c",'1',coefficients_first[i], coefficients_first[i+1]);
+			fprintf(trial, "%c%c%c",'1',coefficients_first[i], coefficients_first[i+1]);
 			i++;
 		}
 		
+		
 		else{
 			
-			fprintf(p4, "%c", coefficients_first[i]);
+			fprintf(trial, "%c", coefficients_first[i]);
 		}
 	}   
 		
 
 }
 
-fclose(p4);
+
+fclose(trial);
 	
 	char newline[40];
 	
-	p4 = fopen("denemetext.txt", "r");
+	trial = fopen("denemetext.txt", "r");
 	
-	fscanf(p4,"%s", newline);
-	printf("bunewlineeeee%s\n", newline);
+	fscanf(trial,"%s", newline); 
 	
-	//strcpy(newline, lines[b]); // this is to turn lines[0] which is the first equation to a new string to measure its length easily.
-	//printf("%s\n", lines[0]);  // both give the same output.
-	//printf("%s\n", newline);   // both give the same output.
 	int length_of_newline = strlen(newline); // this is to measure lines' length.
 	
-	fclose(p4);
+	fclose(trial);
 	
-	p = fopen("lines.txt", "w");            // Here we put " " instead of "=" in the equation to easily get the coefficients and variables with %f%c method.
+	p = fopen("lines.txt", "w");            // Here we put "+" instead of "=" in the equation to easily get the coefficients and variables with %f%c method.
 	for(i=0; i < length_of_newline; i++){   
 		
 		if(newline[i] == '='){
 			
-			newline[i] = ' ';
+			newline[i] = '+'; // This is to identify the constant which is left side of the equation.
 			
 		}
 	}
@@ -303,63 +282,89 @@ fclose(p4);
 
 	fclose(p);
 	
+	p = fopen("lines.txt", "a"); // This is to identify the last constant.
+	fprintf(p, "%c", '*');
+	fclose(p);
+	
 	p = fopen("lines.txt", "r");
 	
 	
-	for(i=0; i<length_of_variables + 1; i++){    // reading the new equation from the new file and get %f for coefficients and get %c for their variables.
+	for(i=0; i<20; i++){   // This is to reset coefficients_control and variables_control.
+	
+	coefficients_control[i] = '\0'; 
+	variables_control[i] = '\0'; 
+}
+	
+	
+	for(i=0; i<length_of_variables + 2; i++){    // reading the new equation from the new file and get %f for coefficients and get %c for their variables.
 	
 fscanf(p,"%f%c", &coefficients_control[i], &variables_control[i]);  
-//printf("%f%c\n",coefficients_control[i], variables_control[i]);
+
+if(variables_control[i] == '*'){
+	break;
+}
 	}
 	
 fclose(p);
 
-//for(i=0; i<length_of_variables; i++){
-//printf("%c \n", variables[i]);	
-//}
-
-//for(m=0; all_the_variables[m] != '\0'; m++){
-	
-//	printf("\ntheseee %c\t", all_the_variables[m]);
-//}
-
 int length_of_all_the_variables = strlen(all_the_variables);
 
 
-int the_count;
+int the_count; // This is for counting if the variables[j] and all_the_variables[i] matches or not.
 int the_another_count=0;
 
 
-for(i=0; i<length_of_all_the_variables; i++){
+for(i=0; all_the_variables[i] != '\0'; i++){ 
 	
 	the_count=0;
 	
-	for(j=0; j<length_of_variables; j++){
+	for(j=0; variables_control[j] != '*'; j++){
 		
-		if(all_the_variables[i] == variables_control[j]){
+		if(all_the_variables[i] == variables_control[j]){  // If they match, add the coefficient to the matrix.
 			
-			matrix[b][i] = coefficients_control[j];
-			printf("%f\t", matrix[b][i]);
+			matrix[b][i] = coefficients_control[j];   
 			the_count=1;
 			the_another_count++;	
 		}
+	
 	}
 	
-	if(the_count != 1){
+	if(the_count != 1){  // If they don't mach, add 0.0 to the matrix.
 		
 		matrix[b][i] = 0.0;
-		printf("%f\t", matrix[b][i]);
 	}
 }
 
-matrix[b][length_of_all_the_variables] = coefficients_control[j];
+int last_count = 0;
 
-printf("%f\t", matrix[b][length_of_all_the_variables]);
+for(j=0; variables_control[j] != '*'; j++){  // It checks whether there is constant on the left side or not.
+	
+	if(variables_control[j] == '+' || variables_control[j] == '-'){
+		
+		the_constant_left = coefficients_control[j];
+		last_count++;
+		
+	}
+	
+}
 
-printf("\n");
+if(last_count == 1){
+
+matrix[b][i] = coefficients_control[j] - the_constant_left;  // This is to calculate for the last constant.
+	
+}
+
+else{
+	matrix[b][i] = coefficients_control[j];
+	
+}
+
+
+
 
 }
 
+printf("\n");
 
 for (int j=0;j<length_of_all_the_variables;j++){ //same as line number
         for(int i=0;i<length_of_all_the_variables;i++){ // coefficients, We do not include the result part in the triangle thats why i dont write coeffnum in here.
@@ -369,6 +374,21 @@ for (int j=0;j<length_of_all_the_variables;j++){ //same as line number
                     matrix[i][k] = matrix[i][k]-ratio*matrix[j][k]; //in here we will multiply ratio and upper line and subtract them with current line. One of the coefficients turns 0.
                 }
                 printf("Next step:\n");
+                
+                for (int i=0;i<length_of_all_the_variables;i++){ //i<line number
+        printf("[");
+        for (int j=0;j<length_of_all_the_variables+1;j++){ //j<unknown number plus result
+            if (j==length_of_all_the_variables){//print result in matrix (last element)
+                printf("%.2f", matrix[i][j]);
+            }else{//if its not last element this adds blank space.
+                printf("%.2f ", matrix[i][j]);
+            }
+            if (j==length_of_all_the_variables-1){ // Before pirnting result, this adds : sign for better understanding.
+                printf(": ");
+            }
+        }
+        printf("]\n");
+    }
             
                 printf("\n");
             }
@@ -388,12 +408,52 @@ for (int j=0;j<length_of_all_the_variables;j++){ //same as line number
     }
     
     
+        //Bonus part with printing results
+    for (int i=0; i<length_of_all_the_variables+2; i++){ //+1 for checking result
+        if (isnan(result[i])){ //checking if its NaN or not
+            nanvalue++;
+        }
+        if (isinf(result[i])){ //checking if its inf (infinite) value or not
+            infvalue++;
+        }
+    }
+    
+    if (nanvalue == length_of_all_the_variables){                               //if all results have NaN value (0/0)
+        printf("This equation has multiple solutions!\n"); //print this
+    }else if (infvalue == length_of_all_the_variables + 1){                   //if all results have infinite value (for ex. 7/0)
+        printf("This equation has no solutions!\n"); //print this.
+    }else{
         printf("RESULTS:\n");//printing results
         for (int i=0;i<length_of_all_the_variables;i++){
             printf("%c is %g\n",all_the_variables[i],result[i]);
         }
+    }
+    
+    remove("denemetext.txt");
+    remove("lines.txt");
+    
+    AfterSolving();
+    
     
 
 	return 0;
 	
+}
+
+
+static void AfterSolving(){ //This includes recursive function Bonus
+	
+	int again;
+    printf("Do you want to close this program?\n");
+    printf("1.Yes\n");
+    printf("Your Selection:");
+    scanf("%d",&again);
+    switch (again) {
+        
+        case 1:
+            break;
+        default: //if user selects other than 1 or 2 this function runs again.
+            printf("If you want to close the program, please select 1!\n");
+            AfterSolving();
+    }
 }
